@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import errorMiddleware from './middlewares/errorMiddleware';
 
 class App {
@@ -12,6 +13,15 @@ class App {
     // ...
   }
 
+  private corsConfig():void {
+    const options: cors.CorsOptions = {
+      methods: 'GET, OPTIONS, POST, DELETE, PUT',
+      origin: '*',
+    };
+
+    this.app.use(cors(options));
+  }
+
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
@@ -21,6 +31,7 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.corsConfig();
     // ...
   }
 
