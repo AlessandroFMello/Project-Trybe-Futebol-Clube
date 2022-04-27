@@ -14,17 +14,15 @@ export default class LoginService {
       return { code: 401, message: 'Incorrect email or password' };
     }
 
-    const tokenInstance = new TokenGenerator();
-    console.log('instance', tokenInstance);
-
     const user = {
       id: findUser.id,
       username: findUser.username,
       email: findUser.email,
       role: findUser.role,
     };
+
+    const tokenInstance = new TokenGenerator();
     const token = await tokenInstance.tokenGenerator(user);
-    console.log('token', token);
 
     return { code: 200, user: { user, token } };
   };
