@@ -1,4 +1,5 @@
-import * as express from 'express';
+import express from 'express';
+import errorMiddleware from './middlewares/errorMiddleware';
 
 class App {
   public app: express.Express;
@@ -7,6 +8,7 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+    this.errorMiddleware();
     // ...
   }
 
@@ -20,6 +22,10 @@ class App {
 
     this.app.use(accessControl);
     // ...
+  }
+
+  private errorMiddleware(): void {
+    this.app.use(errorMiddleware);
   }
 
   // ...
