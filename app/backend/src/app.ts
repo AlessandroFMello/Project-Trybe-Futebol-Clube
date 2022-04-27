@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import loginRouter from './routes/loginRoutes';
 import errorMiddleware from './middlewares/errorMiddleware';
 
 class App {
@@ -9,6 +10,7 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+    this.routes();
     this.errorMiddleware();
     // ...
   }
@@ -32,7 +34,12 @@ class App {
 
     this.app.use(accessControl);
     this.corsConfig();
+    this.app.use(express.json());
     // ...
+  }
+
+  private routes(): void {
+    this.app.use('/login', loginRouter);
   }
 
   private errorMiddleware(): void {
