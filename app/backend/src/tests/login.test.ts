@@ -101,4 +101,11 @@ describe('Testa a rota de login', () => {
     expect(chaiHttpResponse.body).to.be.equal('All fields must be filled');
   });
 
+  it('Testa a rota login/validate', async () => {
+    chaiHttpResponse = await chai
+       .request(app).get('/login/validate').set('authorization', '"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjUxNTE3MTY2LCJleHAiOjE2NTIxMjE5NjZ9.DjmdgpYhZBL2cPjB_1Xir1h4WHGnim4Enb1rCRa8WJ4')
+
+    expect(chaiHttpResponse.status).to.be.equal(200);
+    expect(chaiHttpResponse.body).to.be.equal('admin');
+  })
 });
