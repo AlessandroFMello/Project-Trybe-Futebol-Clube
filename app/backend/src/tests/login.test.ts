@@ -80,4 +80,15 @@ describe('Testa a rota de login', () => {
     expect(chaiHttpResponse.body).to.be.equal('All fields must be filled');
   });
 
+  it('Testa a requisição sem informar senha', async () => {
+    chaiHttpResponse = await chai
+       .request(app).post('/login').send({
+        "email": "admin@admin.com",
+        })
+
+    expect(chaiHttpResponse.status).to.be.equal(400);
+    expect(chaiHttpResponse.body).to.have.property('message');
+    expect(chaiHttpResponse.body).to.be.equal('All fields must be filled');
+  });
+
 });
