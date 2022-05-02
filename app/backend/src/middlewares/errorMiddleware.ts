@@ -8,7 +8,7 @@ const errorMiddleware = (
 ) => {
   console.log(error);
 
-  return res.status(500).json({ message: 'Algo deu errado, tente novamente' });
+  return res.status(500).json({ error, message: 'Algo deu errado, tente novamente' });
 };
 
 export default errorMiddleware;

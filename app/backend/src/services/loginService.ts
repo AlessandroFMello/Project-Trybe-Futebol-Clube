@@ -6,7 +6,7 @@ export default class LoginService {
   public login = async (email: string, password: string) => {
     const findUser = await User.findOne({ where: { email } });
 
-    if (!findUser) return { code: 404, message: 'User not found' };
+    if (!findUser) return { code: 401, message: 'Incorrect email or password' };
 
     const verifyPassword = await bcrypt.compare(password, findUser.password);
 
