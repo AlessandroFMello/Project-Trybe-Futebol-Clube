@@ -57,4 +57,16 @@ describe('Testa a rota de login', () => {
     expect(chaiHttpResponse.body).to.be.equal('Incorrect email or password');
   });
 
+  it('Testa a requisição com senha incorreta', async () => {
+    chaiHttpResponse = await chai
+       .request(app).post('/login').send({
+        "email": "admin@admin.com",
+        "password": "secret_admin_wrong"
+        })
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).to.have.property('message');
+    expect(chaiHttpResponse.body).to.be.equal('Incorrect email or password');
+  });
+
 });
