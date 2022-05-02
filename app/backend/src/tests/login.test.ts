@@ -34,4 +34,15 @@ describe('Testa a rota de login', () => {
     (User.findOne as sinon.SinonStub).restore();
   })
 
+  it('Testa a requisição com as informações corretas de usuário', async () => {
+    chaiHttpResponse = await chai
+       .request(app).post('/login').send({
+        "email": "admin@admin.com",
+        "password": "secret_admin"
+       })
+
+    expect(chaiHttpResponse.status).to.be.equal(200);
+    expect(chaiHttpResponse.body).to.have.property('user');
+  });
+
 });
