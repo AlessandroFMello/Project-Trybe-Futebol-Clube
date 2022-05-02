@@ -8,4 +8,6 @@ const loginController = new LoginController();
 
 router.post('/', loginMiddleware, loginController.login);
 
+router.get('/validate', loginController.validation);
+
 export default router;
