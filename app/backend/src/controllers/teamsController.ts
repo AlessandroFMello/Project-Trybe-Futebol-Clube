@@ -18,4 +18,13 @@ export default class LoginController {
     return res.status(code).json(allTeams);
   };
 
+  public getById = async (req: Request, res: Response) => {
+    const { code, team, message } = await this.teamsService.getById(req.params.id);
+
+    if (!team) {
+      return res.status(code).json({ message });
+    }
+
+    return res.status(code).json(team);
+  };
 }
