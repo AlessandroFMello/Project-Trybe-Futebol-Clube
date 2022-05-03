@@ -18,4 +18,13 @@ export default class MatchesController {
     return res.status(code).json(allMatches);
   };
 
+  public getById = async (req: Request, res: Response) => {
+    const { code, match, message } = await this.matchesService.getById(req.params.id);
+
+    if (!match) {
+      return res.status(code).json({ message });
+    }
+
+    return res.status(code).json(match);
+  };
 }
