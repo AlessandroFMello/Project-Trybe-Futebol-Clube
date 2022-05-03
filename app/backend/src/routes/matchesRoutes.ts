@@ -7,4 +7,6 @@ const matchesController = new MatchesController();
 
 router.get('/', matchesController.getAll);
 
+router.get('/:id', matchesController.getById);
+
 export default router;
