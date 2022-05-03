@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import TeamsService from '../services/teamsService';
 
-export default class LoginController {
+export default class TeamsController {
   private teamsService: TeamsService;
 
   constructor() {
