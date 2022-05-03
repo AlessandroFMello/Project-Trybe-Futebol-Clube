@@ -33,22 +33,39 @@ export default class MatchesService {
   };
 
   public create = async ({
-    homeTeam,
-    awayTeam,
-    homeTeamGoals,
-    awayTeamGoals,
-    inProgress,
+    homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
   }: MatchShape) => {
+    const findHomeTeam = await Match.findByPk(homeTeam);
+    const findAwayTeam = await Match.findByPk(awayTeam);
+
+    if (!findHomeTeam || !findAwayTeam) {
+      return { code: 404, message: 'There is no team with such id!' };
+    }
+
     const createMatch = await Match.create({
-      homeTeam,
-      awayTeam,
-      homeTeamGoals,
-      awayTeamGoals,
-      inProgress,
+      homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
     });
 
     if (!createMatch) return { code: 401, message: 'Error! Match not created' };
 
     return { code: 201, match: createMatch };
+  };
+
+  public finish = async (id: number) => {
+    const findExistingMatch = await Match.findByPk(id);
+
+    if (!findExistingMatch) return { code: 401, message: 'Match not found' };
+
+    const updateMatch = await Match.update(
+      {
+        inProgress: false,
+      },
+      { where: { id } },
+    );
+    // const getUpdatedMatch = await Match.findByPk(id);
+
+    if (!updateMatch) return { code: 401, message: 'Error! Match not updated' };
+
+    return { code: 200, match: updateMatch };
   };
 }
