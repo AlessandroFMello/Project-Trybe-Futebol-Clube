@@ -12,4 +12,6 @@ router.get('/:id', matchesController.getById);
 
 router.post('/', tokenValidation, matchesController.create);
 
+router.patch('/:id/finish', matchesController.finish);
+
 export default router;
