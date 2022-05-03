@@ -33,8 +33,6 @@ export default class LoginController {
 
     const decodedUser = await tokenGenerator.decodeToken(authorization) as JwtPayload;
 
-    console.log(decodedUser);
-
     return res.status(200).json(decodedUser.role);
   };
 }
