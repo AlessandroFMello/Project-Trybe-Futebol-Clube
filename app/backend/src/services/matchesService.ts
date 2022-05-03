@@ -1,3 +1,4 @@
+import MatchShape from '../interfaces/matchShape';
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 
@@ -29,5 +30,25 @@ export default class MatchesService {
     if (!findMatchById) return { code: 401, message: 'Match not found' };
 
     return { code: 200, match: findMatchById };
+  };
+
+  public create = async ({
+    homeTeam,
+    awayTeam,
+    homeTeamGoals,
+    awayTeamGoals,
+    inProgress,
+  }: MatchShape) => {
+    const createMatch = await Match.create({
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress,
+    });
+
+    if (!createMatch) return { code: 401, message: 'Error! Match not created' };
+
+    return { code: 201, match: createMatch };
   };
 }
