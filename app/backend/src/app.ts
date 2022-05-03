@@ -19,7 +19,7 @@ class App {
 
   private corsConfig():void {
     const options: cors.CorsOptions = {
-      methods: 'GET, OPTIONS, POST, DELETE, PUT',
+      methods: 'GET, OPTIONS, POST, DELETE, PUT, PATCH',
       origin: '*',
     };
 
