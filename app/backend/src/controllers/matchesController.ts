@@ -33,18 +33,26 @@ export default class MatchesController {
       homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
     } = req.body;
 
-    if (!homeTeam || !awayTeam || !homeTeamGoals || !awayTeamGoals || !inProgress) {
-      return res.status(400).json({ message: 'Missing data' });
-    }
-
     if (homeTeam === awayTeam) {
-      return res.status(400)
+      return res.status(401)
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
 
     const { code, match, message } = await this.matchesService.create({
       homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
     });
+
+    if (!match) {
+      return res.status(code).json({ message });
+    }
+
+    return res.status(code).json(match);
+  };
+
+  public finish = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const { code, match, message } = await this.matchesService.finish(Number(id));
 
     if (!match) {
       return res.status(code).json({ message });
