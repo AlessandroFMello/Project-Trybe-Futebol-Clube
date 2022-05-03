@@ -23,4 +23,11 @@ export default class MatchesService {
     return { code: 200, allMatches: findAllMatches };
   };
 
+  public getById = async (id: string) => {
+    const findMatchById = await Match.findByPk(id);
+
+    if (!findMatchById) return { code: 401, message: 'Match not found' };
+
+    return { code: 200, match: findMatchById };
+  };
 }
