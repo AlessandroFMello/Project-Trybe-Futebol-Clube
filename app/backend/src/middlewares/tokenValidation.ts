@@ -7,7 +7,7 @@ const tokenValidation = (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(400).json({ message: 'Unauthorized' });
+      return res.status(404).json({ message: 'Unauthorized' });
     }
 
     // const tokenGenerator = new TokenGenerator();
@@ -17,7 +17,7 @@ const tokenValidation = (req: Request, res: Response, next: NextFunction) => {
     return next();
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: 'Unauthorized' });
+    return res.status(404).json({ message: 'Unauthorized' });
   }
 };
 
