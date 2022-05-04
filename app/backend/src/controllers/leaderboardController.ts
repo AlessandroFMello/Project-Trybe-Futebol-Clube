@@ -19,4 +19,11 @@ export default class LeaderboardController {
 
     return res.status(code).json(leaderboard);
   };
+
+  public getAllTeamMatches = async (_req: Request, res: Response) => {
+    const { code, leaderboard } = await this
+      .leaderboardService.getAllTeamMatches();
+
+    return res.status(code).json(leaderboard);
+  };
 }
