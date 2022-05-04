@@ -16,7 +16,8 @@ export default class LeaderboardService {
   public async getHome() {
     const teams = await this.getAllTeams();
     const matches = await this.getAllMatches();
-    const results: TeamMatchesResults[] = [];
+    const homeGames: TeamMatchesResults[] = [];
+
     teams.forEach((team) => {
       const filteredMatches = matches
         .filter(
@@ -31,17 +32,17 @@ export default class LeaderboardService {
 
       const teamResults = new TeamMatchesResults(team.teamName, mappedMatches);
 
-      results.push(teamResults);
+      homeGames.push(teamResults);
     });
 
-    return { code: 200, leaderboard: this.compareTeams(results) };
+    return { code: 200, leaderboard: this.compareTeams(homeGames) };
   }
 
-  public async getAway() {
+  public getAway = async () => {
     const teams = await this.getAllTeams();
     const matches = await this.getAllMatches();
 
-    const results: TeamMatchesResults[] = [];
+    const awayGames: TeamMatchesResults[] = [];
     teams.forEach((team) => {
       const filteredMatches = matches
         .filter(
@@ -56,10 +57,34 @@ export default class LeaderboardService {
 
       const teamResults = new TeamMatchesResults(team.teamName, mappedMatches);
 
-      results.push(teamResults);
+      awayGames.push(teamResults);
     });
 
-    return { code: 200, leaderboard: this.compareTeams(results) };
+    return { code: 200, leaderboard: this.compareTeams(awayGames) };
+  };
+
+  public async getAllTeamMatches() {
+    const teams = await Team.findAll();
+    const matches = await Match.findAll();
+
+    const allGames: TeamMatchesResults[] = [];
+
+    teams.forEach((team) => {
+      const filteredHome = matches
+        .filter((match) => match.homeTeam === team.id && match.inProgress === false);
+      const mappedHome = filteredHome
+        .map((match) => ({ goalsFavor: match.homeTeamGoals, goalsOwn: match.awayTeamGoals }));
+
+      const filteredAway = matches
+        .filter((match) => match.awayTeam === team.id && match.inProgress === false);
+      const mappedAway = filteredAway
+        .map((match) => ({ goalsFavor: match.awayTeamGoals, goalsOwn: match.homeTeamGoals }));
+
+      const teamResults = new TeamMatchesResults(team.teamName, [...mappedHome, ...mappedAway]);
+
+      allGames.push(teamResults);
+    });
+    return { code: 200, leaderboard: this.compareTeams(allGames) };
   }
 
   private compareTeams = (teams: TeamMatchesResults[]) => teams.sort((a, b) => {
