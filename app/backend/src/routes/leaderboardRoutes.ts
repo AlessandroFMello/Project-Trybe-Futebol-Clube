@@ -9,5 +9,6 @@ router.get('/home', leaderboardController.getHome);
 
 router.get('/away', leaderboardController.getAway);
 
-// router.get('/', leaderboardController.getAllGames);
+router.get('/', leaderboardController.getAllTeamMatches);
+
 export default router;
