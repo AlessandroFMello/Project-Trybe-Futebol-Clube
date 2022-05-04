@@ -7,7 +7,7 @@ export default class Match extends Model {
 
   homeTeam: number;
 
-  homeTeamId: number;
+  homeTeamGoals: number;
 
   awayTeam: number;
 
